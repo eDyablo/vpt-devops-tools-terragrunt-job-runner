@@ -31,4 +31,11 @@ RUN \
       --no-progress-meter \
   && chmod +x /usr/local/bin/terragrunt
 
+ARG CONTAINER_USER=default
+
+RUN addgroup -S ${CONTAINER_USER#*:} \
+  && adduser -S ${CONTAINER_USER%:*} -G ${CONTAINER_USER#*:}
+
+USER $CONTAINER_USER
+
 WORKDIR /var/workspace
