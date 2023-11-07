@@ -1,0 +1,7 @@
+services:
+  runner:
+    build:
+      context: .
+    image: dkr.gtl.net/dkr/devops-tools-terragrunt-job-runner
+    volumes:
+    - .:/var/workspace:rw
