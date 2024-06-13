@@ -1,21 +1,21 @@
-ARG DOCKER_REGISTRY
+ARG CONTAINER_IMAGE_REGISTRY
 
-FROM ${DOCKER_REGISTRY:+${DOCKER_REGISTRY}/}alpine
+FROM ${CONTAINER_IMAGE_REGISTRY:+${CONTAINER_IMAGE_REGISTRY}/}alpine:3.20.0
 
 ENV \
-  TERRAFORM_VERSION=1.7.4 \
-  TERRAGRUNT_VERSION=v0.55.9
+  TERRAFORM_VERSION=1.8.5 \
+  TERRAGRUNT_VERSION=v0.59.3
 
 RUN \
   echo "Installing basic tooling" \
     && apk add --update --no-cache \
-      aws-cli \
-      bash \
-      curl \
-      git \
-      jq \
-      openssl \
-      openssh \
+      aws-cli=2.15.57-r0 \
+      bash=5.2.26-r0 \
+      curl=8.7.1-r0 \
+      git=2.45.2-r0 \
+      jq=1.7.1-r0 \
+      openssh=9.7_p1-r3 \
+      openssl=3.3.1-r0 \
   && OS_NAME=$(uname -o | tr '[:upper:]' '[:lower:]') \
     && ARCH_NAME=$(uname -m) \
       && ARCH_NAME=${ARCH_NAME/aarch64/arm64} \
