@@ -1,8 +1,7 @@
 ARG CONTAINER_IMAGE_REGISTRY
 
-FROM ${CONTAINER_IMAGE_REGISTRY:+${CONTAINER_IMAGE_REGISTRY}/}alpine:3.20.0
+FROM ${CONTAINER_IMAGE_REGISTRY:+${CONTAINER_IMAGE_REGISTRY}/}alpine:3.20.1
 
-ENV TERRAFORM_VERSION=1.8.5
 ENV TERRAGRUNT_VERSION=v0.59.3
 
 RUN \
@@ -15,16 +14,11 @@ RUN \
       jq=1.7.1-r0 \
       openssh=9.7_p1-r3 \
       openssl=3.3.1-r0 \
+      opentofu=1.7.2-r1 \
   && OS_NAME=$(uname -o | tr '[:upper:]' '[:lower:]') \
     && ARCH_NAME=$(uname -m) \
       && ARCH_NAME=${ARCH_NAME/aarch64/arm64} \
       && ARCH_NAME=${ARCH_NAME/x86_64/amd64} \
-  && echo "Installing terraform version ${TERRAFORM_VERSION#v}" \
-    && curl -fL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${OS_NAME}_${ARCH_NAME}.zip \
-      --output /tmp/terraform.zip \
-      --no-progress-meter \
-    && unzip -q /tmp/terraform.zip terraform -d /usr/local/bin \
-    && rm /tmp/terraform.zip \
   && echo "Installing terragrunt version ${TERRAGRUNT_VERSION#v}" \
     && curl -fL https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT_VERSION}/terragrunt_${OS_NAME}_${ARCH_NAME} \
       --output /usr/local/bin/terragrunt \
